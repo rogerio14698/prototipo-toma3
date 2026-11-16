@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel · Toma 3</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ===== LOGIN (maqueta: en la versión real lo valida el servidor) ===== -->
+  <section class="login" id="login">
+    <form class="login__card" id="login-form" novalidate>
+      <p class="brand">Toma 3</p>
+      <h1>Acceso al panel</h1>
+      <p class="muted">Solo para administración.</p>
+      <div class="field">
+        <label for="l-email">Correo</label>
+        <input id="l-email" type="email" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="l-pass">Contraseña</label>
+        <input id="l-pass" type="password" autocomplete="current-password" required>
+      </div>
+      <button class="btn btn--block" type="submit">Entrar</button>
+      <p class="form-msg" id="login-msg" role="alert"></p>
+      <p class="hint">Demo: escribe cualquier correo y contraseña para ver el panel.</p>
+    </form>
+  </section>
+
+  <!-- ===== PANEL ===== -->
+  <div class="app" id="app" hidden>
+
+    <aside class="side">
+      
+        <a href="index.html" class="brand">Toma 3 <span>panel</span></a>
+      
+      <nav class="side__nav" aria-label="Secciones del panel">
+        <button data-view="resumen" class="is-active">Resumen</button>
+        <button data-view="eventos">Eventos</button>
+        <button data-view="carta">Carta</button>
+        <button data-view="horarios">Horarios</button>
+        <button data-view="contenido">Contenido</button>
+        <button data-view="seo">SEO</button>
+        <button data-view="medios">Imágenes y marca</button>
+        <button data-view="apariencia">Apariencia</button>
+        <button data-view="usuarios">Usuarios</button>
+      </nav>
+      <div class="side__foot">
+        <a href="index.html">Ver la web</a>
+        <button id="logout" type="button">Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="top">
+        <h1 id="view-title">Resumen</h1>
+        <span class="badge badge--demo">Datos de ejemplo</span>
+      </header>
+
+      <!-- RESUMEN -->
+      <section class="view is-active" id="v-resumen">
+        <div class="stats">
+          <article class="panel stat"><p class="stat__n">3</p><p>Eventos publicados</p></article>
+          <article class="panel stat"><p class="stat__n">2</p><p>Clubs de lectura activos</p></article>
+          <article class="panel stat"><p class="stat__n">14</p><p>Inscripciones nuevas</p></article>
+          <article class="panel stat"><p class="stat__n">Hoy</p><p>Última edición</p></article>
+        </div>
+        <div class="panel">
+          <h2>Qué puedes hacer desde aquí</h2>
+          <ul class="list">
+            <li><strong>Eventos:</strong> crear, editar y despublicar la agenda.</li>
+            <li><strong>Carta y horarios:</strong> precios, disponibilidad, horario semanal y cierres.</li>
+            <li><strong>Contenido:</strong> los textos de cada sección de la web.</li>
+            <li><strong>SEO, imágenes y marca:</strong> títulos, descripciones, favicon, logo y fotos.</li>
+            <li><strong>Apariencia:</strong> colores y tipografías de toda la web.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- EVENTOS -->
+      <section class="view" id="v-eventos">
+        <div class="bar">
+          <p class="muted">Lo que publiques aparece en la agenda de la web.</p>
+          <button class="btn" type="button" id="toggle-event-form">Nuevo evento</button>
+        </div>
+
+        <form class="panel form-grid" id="event-form" data-save hidden>
+          <h2>Nuevo evento</h2>
+          <div class="field"><label for="e-title">Título</label><input id="e-title" required></div>
+          <div class="field">
+            <label for="e-type">Tipo</label>
+            <select id="e-type">
+              <option>Presentación de libro</option><option>Concierto</option><option>Proyección</option><option>Club de lectura</option>
+            </select>
+          </div>
+          <div class="field"><label for="e-date">Fecha</label><input id="e-date" type="date" required></div>
+          <div class="field"><label for="e-time">Hora</label><input id="e-time" type="time"></div>
+          <div class="field field--full"><label for="e-desc">Descripción</label><textarea id="e-desc" rows="3"></textarea></div>
+          <div class="field field--full">
+            <label for="e-img">Imagen del evento</label>
+            <input id="e-img" class="file" type="file" accept="image/*">
+          </div>
+          <label class="switch field--full"><input type="checkbox" id="e-pub" checked><span></span>Publicar al guardar</label>
+          <div class="actions field--full">
+            <button class="btn" type="submit">Guardar evento</button>
+            <button class="btn btn--ghost" type="button" id="cancel-event">Cancelar</button>
+          </div>
+        </form>
+
+        <div class="panel table-wrap">
+          <table>
+            <thead><tr><th>Título</th><th>Tipo</th><th>Fecha</th><th>Estado</th><th><span class="sr">Acciones</span></th></tr></thead>
+            <tbody id="events-body">
+              <tr><td>Presentación editorial asturiana</td><td>Presentación de libro</td><td>28/11/2026</td><td><span class="badge badge--ok">Publicado</span></td><td><button class="link del" type="button">Eliminar</button></td></tr>
+              <tr><td>Concierto de jueves</td><td>Concierto</td><td>03/12/2026</td><td><span class="badge badge--ok">Publicado</span></td><td><button class="link del" type="button">Eliminar</button></td></tr>
+              <tr><td>Ciclo de cine</td><td>Proyección</td><td>10/12/2026</td><td><span class="badge">Borrador</span></td><td><button class="link del" type="button">Eliminar</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CARTA -->
+      <section class="view" id="v-carta">
+        <div class="bar"><p class="muted">Categorías, platos y precios. Desmarca “Disponible” para ocultar un producto sin borrarlo.</p></div>
+
+        <div class="panel">
+          <h2>Bebidas</h2>
+          <ul class="items" id="items-bebidas">
+            <li><input aria-label="Nombre" value="Café"><input aria-label="Precio" class="price" value="1,60 €"><label class="switch"><input type="checkbox" checked><span></span>Disponible</label></li>
+            <li><input aria-label="Nombre" value="Caña"><input aria-label="Precio" class="price" value="2,20 €"><label class="switch"><input type="checkbox" checked><span></span>Disponible</label></li>
+            <li><input aria-label="Nombre" value="Sidra"><input aria-label="Precio" class="price" value="2,50 €"><label class="switch"><input type="checkbox"><span></span>Disponible</label></li>
+          </ul>
+          <button class="btn btn--ghost" type="button" data-add-item="items-bebidas">Añadir producto</button>
+        </div>
+
+        <div class="panel">
+          <h2>Para picar</h2>
+          <ul class="items" id="items-picar">
+            <li><input aria-label="Nombre" value="Tabla de quesos"><input aria-label="Precio" class="price" value="9,00 €"><label class="switch"><input type="checkbox" checked><span></span>Disponible</label></li>
+          </ul>
+          <button class="btn btn--ghost" type="button" data-add-item="items-picar">Añadir producto</button>
+        </div>
+
+        <div class="actions"><button class="btn" type="button" data-save-btn>Guardar carta</button><button class="btn btn--ghost" type="button" data-toast="Categoría añadida (demo)">Nueva categoría</button></div>
+      </section>
+
+      <!-- HORARIOS -->
+      <section class="view" id="v-horarios">
+        <form class="panel" data-save>
+          <h2>Horario semanal</h2>
+          <ul class="hours" id="hours"></ul>
+          <div class="actions"><button class="btn" type="submit">Guardar horario</button></div>
+        </form>
+
+        <form class="panel form-grid" data-save>
+          <h2>Cierres y días especiales</h2>
+          <div class="field"><label for="c-date">Fecha</label><input id="c-date" type="date"></div>
+          <div class="field"><label for="c-note">Aviso (aparece en la web)</label><input id="c-note" placeholder="Cerrado por evento privado"></div>
+          <div class="actions field--full"><button class="btn btn--ghost" type="submit">Añadir cierre</button></div>
+        </form>
+      </section>
+
+      <!-- CONTENIDO -->
+      <section class="view" id="v-contenido">
+        <div class="bar"><p class="muted">Un bloque por sección de la web. Edita el texto y guarda.</p></div>
+
+        <form class="panel form-grid" data-save>
+          <h2>Portada</h2>
+          <div class="field field--full"><label>Etiqueta superior</label><input value="Gijón / Xixón"></div>
+          <div class="field field--full"><label>Título</label><input value="Libros, música y cine en Xixón."></div>
+          <div class="field field--full"><label>Texto de apoyo</label><textarea rows="3">Toma 3 es un espacio donde la cultura y el ocio comparten sitio: presentaciones, conciertos, proyecciones y clubs de lectura.</textarea></div>
+          <div class="field"><label>Botón principal</label><input value="Apúntate a un club"></div>
+          <div class="field"><label>Botón secundario</label><input value="Ver agenda"></div>
+          <div class="actions field--full"><button class="btn" type="submit">Guardar portada</button></div>
+        </form>
+
+        <form class="panel form-grid" data-save>
+          <h2>Agenda</h2>
+          <div class="field field--full"><label>Título de la sección</label><input value="Lo que pasa en Toma 3"></div>
+          <div class="field field--full"><label>Mostrar</label>
+            <select><option>Próximos eventos (automático desde “Eventos”)</option><option>Solo tipos de actividad (texto fijo)</option></select>
+          </div>
+          <div class="actions field--full"><button class="btn" type="submit">Guardar agenda</button></div>
+        </form>
+
+        <form class="panel form-grid" data-save>
+          <h2>Clubs de lectura</h2>
+          <div class="field field--full"><label>Título de la sección</label><input value="Lee con otras personas"></div>
+          <div class="field"><label>Libro 1</label><input value="Temporada de huracanes"></div>
+          <div class="field"><label>Autor/a</label><input value="Fernanda Melchor"></div>
+          <div class="field"><label>Libro 2</label><input value="Ustedes brillan en lo oscuro"></div>
+          <div class="field"><label>Autor/a</label><input value="Liliana Colanzi"></div>
+          <div class="field field--full"><label>Correo que recibe las inscripciones</label><input type="email" value="toma3.xixon@gmail.com"></div>
+          <div class="actions field--full"><button class="btn" type="submit">Guardar clubs</button></div>
+        </form>
+
+        <form class="panel form-grid" data-save>
+          <h2>Contacto y pie</h2>
+          <div class="field"><label>Correo</label><input type="email" value="toma3.xixon@gmail.com"></div>
+          <div class="field"><label>Instagram</label><input value="@toma3_xixon"></div>
+          <div class="field field--full"><label>Dirección (opcional)</label><input></div>
+          <div class="field field--full"><label>Teléfono (opcional)</label><input type="tel"></div>
+          <div class="actions field--full"><button class="btn" type="submit">Guardar contacto</button></div>
+        </form>
+      </section>
+
+      <!-- SEO -->
+      <section class="view" id="v-seo">
+        <form class="panel form-grid" data-save>
+          <h2>Posicionamiento (SEO)</h2>
+          <div class="field field--full">
+            <label for="seo-title">Título de la página <span class="count" id="c-title"></span></label>
+            <input id="seo-title" value="Toma 3 · Cultura y ocio en Gijón">
+          </div>
+          <div class="field field--full">
+            <label for="seo-desc">Meta descripción <span class="count" id="c-desc"></span></label>
+            <textarea id="seo-desc" rows="3">Presentaciones de libros, conciertos, proyecciones y clubs de lectura en Gijón/Xixón.</textarea>
+          </div>
+          <div class="field"><label for="seo-slug">URL de la página</label><input id="seo-slug" value="/"></div>
+          <div class="field"><label for="seo-kw">Palabras clave (opcional)</label><input id="seo-kw" placeholder="bar cultural Gijón, club de lectura Gijón"></div>
+          <div class="field field--full"><label for="seo-og">Imagen al compartir (Open Graph)</label><input id="seo-og" class="file" type="file" accept="image/*"></div>
+          <label class="switch field--full"><input type="checkbox" id="seo-index" checked><span></span>Permitir que Google indexe la web</label>
+
+          <div class="field--full">
+            <p class="label">Así se vería en Google</p>
+            <div class="serp" aria-live="polite">
+              <p class="serp__url" id="p-url">toma3.es</p>
+              <p class="serp__title" id="p-title"></p>
+              <p class="serp__desc" id="p-desc"></p>
+            </div>
+          </div>
+          <div class="actions field--full"><button class="btn" type="submit">Guardar SEO</button></div>
+        </form>
+      </section>
+
+      <!-- IMÁGENES Y MARCA -->
+      <section class="view" id="v-medios">
+        <form class="panel form-grid" data-save>
+          <h2>Marca</h2>
+          <div class="field">
+            <label for="m-fav">Favicon (PNG o SVG, cuadrado)</label>
+            <input id="m-fav" class="file" type="file" accept="image/png,image/svg+xml,image/x-icon" data-preview="prev-fav">
+            <img id="prev-fav" class="prev prev--sm" alt="" hidden>
+          </div>
+          <div class="field">
+            <label for="m-logo">Logo</label>
+            <input id="m-logo" class="file" type="file" accept="image/*" data-preview="prev-logo">
+            <img id="prev-logo" class="prev prev--sm" alt="" hidden>
+          </div>
+          <div class="field field--full">
+            <label for="m-hero">Foto de portada</label>
+            <input id="m-hero" class="file" type="file" accept="image/*" data-preview="prev-hero">
+            <img id="prev-hero" class="prev" alt="" hidden>
+          </div>
+          <div class="field field--full"><label for="m-alt">Texto alternativo de la portada (accesibilidad y SEO)</label><input id="m-alt" placeholder="Describe lo que se ve en la foto"></div>
+          <div class="actions field--full"><button class="btn" type="submit">Guardar marca</button></div>
+        </form>
+
+        <div class="panel">
+          <h2>Galería</h2>
+          <p class="muted">Sube las fotos del local y de los eventos. Cada una lleva su texto alternativo.</p>
+          <div class="gallery" id="gallery">
+            <label class="drop">+ Añadir imagen<input class="file" id="g-add" type="file" accept="image/*" multiple hidden></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- APARIENCIA -->
+      <section class="view" id="v-apariencia">
+        <form class="panel form-grid" data-save>
+          <h2>Colores y tipografía</h2>
+          <div class="field"><label for="a-bg">Fondo oscuro</label><input id="a-bg" type="color" value="#14130f"></div>
+          <div class="field"><label for="a-paper">Fondo claro</label><input id="a-paper" type="color" value="#f1ece2"></div>
+          <div class="field"><label for="a-accent">Color de acento</label><input id="a-accent" type="color" value="#e0603a"></div>
+          <div class="field">
+            <label for="a-font">Tipografía de títulos</label>
+            <select id="a-font">
+              <option value="Fraunces, Georgia, serif">Fraunces</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="system-ui, sans-serif">Sistema (sans-serif)</option>
+            </select>
+          </div>
+          <div class="field--full">
+            <p class="label">Vista previa</p>
+            <div class="swatch" id="swatch">
+              <div class="swatch__dark" id="sw-dark"><p id="sw-title">Libros, música y cine</p><span class="swatch__btn" id="sw-btn">Apúntate</span></div>
+              <div class="swatch__light" id="sw-light"><p>Lo que pasa en Toma 3</p></div>
+            </div>
+          </div>
+          <div class="actions field--full"><button class="btn" type="submit">Guardar apariencia</button></div>
+        </form>
+      </section>
+
+      <!-- USUARIOS -->
+      <section class="view" id="v-usuarios">
+        <div class="panel table-wrap">
+          <h2>Quién puede entrar</h2>
+          <table>
+            <thead><tr><th>Correo</th><th>Rol</th><th>Último acceso</th></tr></thead>
+            <tbody>
+              <tr><td>toma3.xixon@gmail.com</td><td><span class="badge badge--ok">Administrador</span></td><td>Hoy</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel">
+          <h2>Seguridad</h2>
+          <label class="switch"><input type="checkbox" checked><span></span>Verificación en dos pasos</label>
+          <label class="switch"><input type="checkbox" checked><span></span>Bloquear tras 5 intentos fallidos</label>
+          <p class="muted">En la versión real, el acceso lo comprueba el servidor en cada petición. Esta maqueta solo muestra cómo se vería.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="admin.js"></script>
+</body>
+</html>

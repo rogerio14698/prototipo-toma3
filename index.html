@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Toma 3 · Cultura y ocio en Gijón</title>
+  <meta name="description" content="Presentaciones de libros, conciertos, proyecciones y clubs de lectura en Gijón/Xixón.">
+  <meta name="robots" content="noindex"><!-- maqueta de demostración: no indexar -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="nav">
+    <div class="container nav__inner">
+      <a class="nav__logo" href="#top" aria-label="Toma 3, inicio">Toma 3</a>
+      <nav class="nav__links" aria-label="Principal">
+        <a href="#agenda">Agenda</a>
+        <a href="#clubs">Clubs de lectura</a>
+        <a href="#contacto">Contacto</a>
+        <a href="admin.html">Modo Ejemplo | Panel Admin</a>
+      </nav>
+      <a class="btn btn--small" href="#clubs">Apúntate</a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- 1 · HERO -->
+    <section class="hero">
+      <span class="hero__mark" aria-hidden="true">3</span>
+      <div class="container hero__inner">
+        <p class="eyebrow">Gijón / Xixón</p>
+        <h1>Libros, música y buen ambiente Xixón.</h1>
+        <p class="lead">Toma 3 es un espacio donde la cultura y el ocio comparten sitio: presentaciones, conciertos, proyecciones y clubs de lectura.</p>
+        <div class="hero__actions">
+          <a class="btn" href="#clubs">Apúntate a un club</a>
+          <a class="btn btn--ghost" href="#agenda">Ver agenda</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 · AGENDA
+         Sustituir las filas por eventos reales con fecha cuando el cliente los facilite. -->
+    <section class="section section--paper" id="agenda">
+      <div class="container">
+        <p class="eyebrow eyebrow--ink">Agenda</p>
+        <h2 class="reveal">Lo que pasa en Toma 3</h2>
+        <ol class="agenda reveal">
+          <li>
+            <span class="agenda__n">01</span>
+            <h3>Presentaciones de libros</h3>
+            <p>Autoras, autores y editoriales asturianas presentan su trabajo y charlan con el público.</p>
+          </li>
+          <li>
+            <span class="agenda__n">02</span>
+            <h3>Conciertos</h3>
+            <p>Música en directo en un formato cercano, con grupos de aquí y de fuera.</p>
+          </li>
+          <li>
+            <span class="agenda__n">03</span>
+            <h3>Proyecciones</h3>
+            <p>Cine y audiovisual para ver en compañía y comentar después.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 3 · CLUBS DE LECTURA -->
+    <section class="section section--dark" id="clubs">
+      <div class="container clubs">
+        <div class="clubs__text reveal">
+          <p class="eyebrow">Clubs de lectura</p>
+          <h2>Lee con otras personas</h2>
+          <p class="lead">Elige un libro, apúntate y ven a comentarlo. La inscripción es gratuita y se hace desde aquí.</p>
+          <ul class="books">
+            <li><strong>Temporada de huracanes</strong><span>Fernanda Melchor</span></li>
+            <li><strong>Ustedes brillan en lo oscuro</strong><span>Liliana Colanzi</span></li>
+          </ul>
+        </div>
+
+        <form class="form reveal" id="form-club" novalidate>
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" name="nombre" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="club">Club</label>
+            <select id="club" name="club" required>
+              <option value="">Elige un libro</option>
+              <option>Temporada de huracanes</option>
+              <option>Ustedes brillan en lo oscuro</option>
+            </select>
+          </div>
+          <button class="btn btn--block" type="submit">Enviar inscripción</button>
+          <p class="form__msg" id="form-msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 4 · CIERRE / CONTACTO -->
+  <footer class="section section--paper footer" id="contacto">
+    <div class="container">
+      <p class="eyebrow eyebrow--ink">Contacto</p>
+      <h2 class="reveal">Escríbenos</h2>
+      <a class="footer__mail" href="mailto:toma3.xixon@gmail.com">toma3.xixon@gmail.com</a>
+      <p class="footer__line">También en Instagram: <a href="https://www.instagram.com/toma3_xixon/" rel="noopener">@toma3_xixon</a></p>
+      <p class="footer__demo">Maqueta de demostración creada por <a href="https://rogerlab.es/home?lang=es" rel="noopener">RogerLab</a>. No es la web oficial.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Revelado suave al hacer scroll (solo si hay JS y no se pide menos movimiento)
+    (function () {
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var items = document.querySelectorAll(".reveal");
+      if (reduce || !("IntersectionObserver" in window)) return;
+      document.documentElement.classList.add("js");
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.15 });
+      items.forEach(function (el) { io.observe(el); });
+    })();
+
+    // Formulario de la maqueta: valida y muestra confirmación (no envía nada)
+    (function () {
+      var form = document.getElementById("form-club");
+      var msg = document.getElementById("form-msg");
+      form.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        var ok = form.nombre.value.trim() && /\S+@\S+\.\S+/.test(form.email.value) && form.club.value;
+        msg.textContent = ok
+          ? "Gracias, " + form.nombre.value.trim() + ". Te escribiremos para confirmar tu plaza."
+          : "Revisa el nombre, el correo y el libro elegido.";
+        msg.className = "form__msg " + (ok ? "is-ok" : "is-error");
+      });
+    })();
+  </script>
+</body>
+</html>
