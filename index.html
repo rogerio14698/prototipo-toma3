@@ -20,13 +20,20 @@
         <img class="nav__logo-img" src="img/logo_toma3.png" alt="" width="36" height="36">
         <span>Toma 3</span>
       </a>
-      <nav class="nav__links" aria-label="Principal">
+      <nav class="nav__links" id="nav-links" aria-label="Principal">
         <a href="#agenda">Agenda</a>
         <a href="#clubs">Clubs de lectura</a>
         <a href="#contacto">Contacto</a>
         <a href="admin.html">Modo Ejemplo | Panel Admin</a>
       </nav>
-      <a class="btn btn--small" href="#clubs">Apúntate</a>
+      <div class="nav__actions">
+        <a class="btn btn--small" href="#clubs">Apúntate</a>
+        <button class="nav__toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menú">
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -139,6 +146,46 @@
         });
       }, { threshold: 0.15 });
       items.forEach(function (el) { io.observe(el); });
+    })();
+
+    // Menú desplegable para móvil
+    (function () {
+      var toggle = document.getElementById("nav-toggle");
+      var links = document.getElementById("nav-links");
+      if (!toggle || !links) return;
+
+      function closeMenu() {
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute("aria-label", "Abrir menú");
+        links.classList.remove("is-open");
+      }
+
+      toggle.addEventListener("click", function () {
+        var isOpen = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!isOpen));
+        toggle.setAttribute("aria-label", !isOpen ? "Cerrar menú" : "Abrir menú");
+        links.classList.toggle("is-open", !isOpen);
+      });
+
+      // Cerrar al pulsar en cualquier enlace del menú
+      links.querySelectorAll("a").forEach(function (a) {
+        a.addEventListener("click", closeMenu);
+      });
+
+      // Cerrar al pulsar Escape
+      document.addEventListener("keydown", function (ev) {
+        if (ev.key === "Escape" && links.classList.contains("is-open")) {
+          closeMenu();
+          toggle.focus();
+        }
+      });
+
+      // Cerrar al hacer clic fuera del menú
+      document.addEventListener("click", function (ev) {
+        if (!links.contains(ev.target) && !toggle.contains(ev.target) && links.classList.contains("is-open")) {
+          closeMenu();
+        }
+      });
     })();
 
     // Formulario de la maqueta: valida y muestra confirmación (no envía nada)
